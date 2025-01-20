@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Segment Filter Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-4 text-gray-800">Customer Segment Filter Builder</h1>
+    <p class="text-gray-600 mb-8">Build complex customer segment filters with multiple conditions</p>
+
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <!-- Current condition builder -->
+      <div class="mb-8">
+        <h2 class="text-lg font-semibold mb-4">Build Filter Condition</h2>
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Select Filter Type</label>
+          <select id="filterType" class="w-full p-2 border border-gray-300 rounded-md">
+            <option value="">Choose a filter...</option>
+            <optgroup label="Basic Filters">
+              <option value="amount_spent">Amount Spent</option>
+              <option value="customer_account_status">Customer Account Status</option>
+              <option value="customer_email_domain">Customer Email Domain</option>
+              <option value="customer_language">Customer Language</option>
+              <option value="customer_tags">Customer Tags</option>
+              <option value="last_order_date">Last Order Date</option>
+              <option value="number_of_orders">Number of Orders</option>
+              <option value="rfm_group">RFM Group</option>
+            </optgroup>
+            <optgroup label="Location Filters">
+              <option value="customer_cities">Cities</option>
+              <option value="customer_countries">Countries</option>
+              <option value="customer_regions">States/Provinces</option>
+            </optgroup>
+            <optgroup label="Marketing & Events">
+              <option value="email_subscription_status">Email Subscription Status</option>
+              <option value="sms_subscription_status">SMS Subscription Status</option>
+              <option value="product_subscription_status">Product Subscription Status</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <!-- Dynamic filter options will be inserted here -->
+        <div id="filterOptions" class="space-y-4"></div>
+
+        <!-- Condition management buttons -->
+        <div class="mt-6 flex items-center gap-2">
+          <button id="addConditionBtn"
+            class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">
+            Add Condition
+          </button>
+          <button id="addAndBtn"
+            class="bg-purple-600 text-white px-3 py-2 rounded-md hover:bg-purple-700 transition-colors">
+            AND
+          </button>
+          <button id="addOrBtn"
+            class="bg-orange-600 text-white px-3 py-2 rounded-md hover:bg-orange-700 transition-colors">
+            OR
+          </button>
+        </div>
+
+        <!-- Current conditions display -->
+        <div class="mt-6">
+          <h3 class="text-sm font-medium text-gray-700 mb-2">Current Conditions:</h3>
+          <div id="currentConditions" class="space-y-2">
+            <!-- Conditions will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Final filter composition -->
+      <div class="border-t pt-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-semibold">Complete Filter</h2>
+          <div class="space-x-2">
+            <button id="copyFilterBtn"
+              class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+              Copy to Clipboard
+            </button>
+            <button id="generateCompleteFilter"
+              class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+              Generate Filter
+            </button>
+          </div>
+        </div>
+        <pre id="output" class="bg-gray-100 p-4 rounded-md whitespace-pre-wrap min-h-[100px]"></pre>
+      </div>
+
+      <!-- Helper text -->
+      <div class="mt-4 text-sm text-gray-600">
+        <p>Tips:</p>
+        <ul class="list-disc ml-5 mt-2">
+          <li>Use AND to combine conditions that must all be true</li>
+          <li>Use OR to combine conditions where at least one must be true</li>
+          <li>Click "Generate Filter" to create the final filter syntax</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+
+  <!-- Clipboard functionality -->
+  <script>
+    document.getElementById('copyFilterBtn').addEventListener('click', function () {
+      const output = document.getElementById('output').textContent;
+      if (output) {
+        navigator.clipboard.writeText(output)
+          .then(() => {
+            // Change button text temporarily
+            const originalText = this.textContent;
+            this.textContent = 'Copied!';
+            setTimeout(() => {
+              this.textContent = originalText;
+            }, 2000);
+          })
+          .catch(err => {
+            console.error('Failed to copy:', err);
+          });
+      }
+    });
+  </script>
+</body>
+
+</html>
